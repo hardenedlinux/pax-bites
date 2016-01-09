@@ -1,19 +1,8 @@
 #!/bin/bash
 
-echo "=====================[ Add/delete PaX flags ]===================="
-echo "###########################################################################"
-
-echo " Monkey-coder: Shawn the R0ck,<citypw@gmail.com>"
-echo " GPL'ed...."
-
-echo " This is free software, and you are welcome to redistribute it
- under the terms of the GNU General Public License.  See LICENSE file
- for details about using this software."  
-
-echo "###########################################################################"
-echo "----------------------------------------------"
 show_help()
 {
+	echo "=====[ pax_bite provides add/delete/view the binary of PaX flags ]========"
 	echo "$0 -h[help] -e[enable] -d[disable] -v[view] [PaX_file_list]"
 	exit 1
 }
@@ -24,6 +13,7 @@ while read line; do
 	IFS=';' read -r BIN FLAGS <<< "$line"
 	$PAXCTL -d $BIN
 	$PAXCTL -C $BIN
+	echo "Adding PaX flags "$FLAGS" onto binary "$BIN""
 	$PAXCTL -$FLAGS $BIN
 done < $FILE
 }
@@ -32,6 +22,7 @@ disable_pax_flags()
 {
 while read line; do
 	IFS=';' read -r BIN FLAGS <<< "$line"
+	echo "Deleting PaX flags from binary "$BIN""
 	$PAXCTL -d $BIN
 done < $FILE
 }
