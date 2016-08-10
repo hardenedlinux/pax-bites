@@ -10,6 +10,12 @@ show_help()
 enable_pax_flags()
 {
 while read line; do
+	if [ ! "$line" ]; then
+		continue
+	fi
+	if [ "$(echo $line | cut -c 1 )" = "#" ]; then
+		continue
+	fi
 	IFS=';' read -r BIN FLAGS <<< "$line"
 	$PAXCTL -d $BIN
 	$PAXCTL -C $BIN
@@ -21,6 +27,12 @@ done < $FILE
 disable_pax_flags()
 {
 while read line; do
+	if [ ! "$line" ]; then
+		continue
+	fi
+	if [ "$(echo $line | cut -c 1 )" = "#" ]; then
+		continue
+	fi
 	IFS=';' read -r BIN FLAGS <<< "$line"
 	echo "Deleting PaX flags from binary "$BIN""
 	$PAXCTL -d $BIN
@@ -30,6 +42,12 @@ done < $FILE
 view_pax_flags()
 {
 while read line; do
+	if [ ! "$line" ]; then
+		continue
+	fi
+	if [ "$(echo $line | cut -c 1 )" = "#" ]; then
+		continue
+	fi
 	IFS=';' read -r BIN FLAGS <<< "$line"
 	$PAXCTL -v $BIN
 done < $FILE
